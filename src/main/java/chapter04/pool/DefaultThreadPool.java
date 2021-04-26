@@ -114,7 +114,14 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job>{
             if(num > this.workerCount){
                 throw new IllegalArgumentException("beyond workNum!");
             }
-
+            int count = 0;
+            while(count < num){
+                Worker worker = this.workers.get(0);
+                worker.shutdown();
+                count++;
+                workers.remove(worker);
+            }
+            this.workerCount -= count;
         }
     }
 
